@@ -1,6 +1,7 @@
 # sgx-gwas
 
 ##Software Guard Extension (SGX) based whole genome variants search
+
 Intel SGX SDK and platform software should be installed before running this applcation.
 1. Running the application: 
    At first, cd to the solution directory and use the following command (example is shown below).
