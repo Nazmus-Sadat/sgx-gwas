@@ -1,0 +1,64 @@
+/*
+ * Copyright (C) 2011-2017 Intel Corporation. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *   * Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ *   * Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in
+ *     the documentation and/or other materials provided with the
+ *     distribution.
+ *   * Neither the name of Intel Corporation nor the names of its
+ *     contributors may be used to endorse or promote products derived
+ *     from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ */
+
+
+enclave {
+	
+	// Import the Ocalls for trusted mutex
+	from "sgx_tstdc.edl" import *;
+	include "types.h"
+
+    trusted {
+		//public int  initialize_enclave([in]struct sealed_buf_t* sealed_buf);
+                //public void seal_vcf_string([in, size=len_input] char* input, [out, size=len_output] uint8_t* output, int len_input, int len_output);
+                //public void unseal_vcf_string([in, size=len_input] uint8_t* blob, [in] int* unsealed_length, int len_input);
+                //public void unseal_vcf_string_control([in, size=len_input] uint8_t* blob, [in] int* unsealed_length, int len_input);
+                //public void populate_case_string([in, size=len_input] char* input, [out, size=len_output] char* output, long int len_input, int len_output);
+                //public void populate_control_string([in, size=len_input] char* input, int Ncontrol, [out, size=len_output] char* output, long int len_input, int len_output);
+                public void process_case_data([in, size=len_input] char* input, int len_input);
+                public void process_control_data([in, size=len_input] char* input, int len_input);
+                //public void send_vcf_string([in, string] const char* input, [out, size=len_output] char* output, int len_output);
+                public void compute([out, size = len_output] int* lengths, int len_output);
+                public void writeOutput([out, size=chi_length] char* chi_str_param, [out, size=af_length] char* af_str, int chi_length, int af_length);
+                //public void compute_sealed_data_size([in]int* mac_len, [in]int* data_len, [out] int* sealed_size);
+                public void populateGroupSize([in]int* NGroupcase_fromApp, [in]int* NGroupcontrol_fromAPP, [in]int* K);
+    };
+
+    untrusted {
+		void print([in, string] const char *string);
+                void ocall_print_string([in, string] const char *str);
+                void insert_af_record([in, string] const char* record_str);
+                //void output_af([in, size = length] char *str, int length);
+               // void output_chis([in, size = length] char *str, int length);
+    };
+};
+
+
